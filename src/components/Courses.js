@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CourseDisplay from "./CourseDisplay";
 
 const Courses = () => {
-  const [course, setCourse] = useState([]);
+  const [courses, setCourse] = useState([]);
 
   useEffect(() => {
     getCourses();
@@ -19,18 +20,12 @@ const Courses = () => {
         console.log(error);
       });
   };
+
   return (
-    <div className="bounds">
-      <div className="grid-33">
-        {course.map((course) => (
-          <div class="grid-33">
-            <a class="course--module course--link" href="course-detail.html">
-              <h4 class="course--label">Course</h4>
-              <h3 class="course--title">{course.title}</h3>
-            </a>
-          </div>
-        ))}
-      </div>
+    <div>
+      {courses.map((course) => (
+        <CourseDisplay title={course.title} key={course.id} />
+      ))}
     </div>
   );
 };
