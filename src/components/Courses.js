@@ -19,12 +19,17 @@ const Courses = () => {
         console.log(error);
       });
   };
+
   return (
-    <div>
-      <h1>Display Course</h1>
-      {course.map((course) => (
-        <h1 key={course.id}>{course.title}</h1>
-      ))}
+    <div className="bounds">
+      <div className="grid-33">
+        <a class="course--module course--link" href="course-detail.html">
+          <h4 class="course--label">Course</h4>
+          {course.map((course) => (
+            <h3 class="course--title">{course.title}</h3>
+          ))}
+        </a>
+      </div>
     </div>
   );
 };
