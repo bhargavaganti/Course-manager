@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import UserSignUp from "./components/UserSignUp";
 import UserSignIn from "./components/UserSignIn";
 import UserSignOut from "./components/UserSignOut";
+import CreateCourse from "./components/CreateCourse";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
         <Header />
         <Switch>
           <Route path="/" exact component={Courses} />
+          <Route path="/courses/create" exact component={CreateCourse} />
           <Route path="/courses/:id" component={CourseDetail} />
           <Route path="/signup" component={UserSignUp} />
           <Route path="/signin" component={UserSignIn} />
