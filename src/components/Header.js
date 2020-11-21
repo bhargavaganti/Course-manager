@@ -10,7 +10,6 @@ const Header = () => {
         </div>
         <nav>
           <Link className="signup" to="/signup">
-            {" "}
             SignUp
           </Link>
           <Link className="signin" to="/signin">

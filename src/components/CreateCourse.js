@@ -7,30 +7,17 @@ class CreateCourse extends Component {
     description: "",
     estimatedTime: "",
     materialsNeeded: "",
+    errors: [],
   };
 
-  updateTitle = (e) => {
-    this.setState({
-      title: e.target.value,
-    });
-  };
+  changeHandler = (e) => {
+    e.persist();
+    const value = e.target.value;
 
-  updateDescription = (e) => {
-    this.setState({
-      description: e.target.value,
-    });
-  };
-
-  updateEstimatedTime = (e) => {
-    this.setState({
-      estimatedTime: e.target.value,
-    });
-  };
-
-  updateMaterialsNeeded = (e) => {
-    this.setState({
-      materialsNeeded: e.target.value,
-    });
+    this.setState((prevState) => ({
+      ...prevState,
+      [e.target.name]: value,
+    }));
   };
 
   handleSubmit = (e) => {
@@ -78,7 +65,7 @@ class CreateCourse extends Component {
                     className="input-title course--title--input"
                     placeholder="Course title..."
                     value={this.state.title}
-                    onChange={this.updateTitle}
+                    onChange={this.changeHandler}
                   />
                 </div>
                 <p>By Joe Smith</p>
@@ -91,7 +78,7 @@ class CreateCourse extends Component {
                     className=""
                     placeholder="Course description..."
                     value={this.state.description}
-                    onChange={this.updateDescription}
+                    onChange={this.changeHandler}
                   />
                 </div>
               </div>
@@ -109,7 +96,7 @@ class CreateCourse extends Component {
                         className="course--time--input"
                         placeholder="Hours"
                         value={this.state.estimatedTime}
-                        onChange={this.updateEstimatedTime}
+                        onChange={this.changeHandler}
                       />
                     </div>
                   </li>
@@ -122,7 +109,7 @@ class CreateCourse extends Component {
                         className=""
                         placeholder="List materials..."
                         value={this.state.materialsNeeded}
-                        onChange={this.updateMaterialsNeeded}
+                        onChange={this.changeHandler}
                       />
                     </div>
                   </li>

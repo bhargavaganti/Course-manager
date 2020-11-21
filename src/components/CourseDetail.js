@@ -21,6 +21,15 @@ const CourseDetail = ({ match }) => {
         console.log(error);
       });
   };
+
+  const deleteCourse = (id) => {
+    axios
+      .delete("http://localhost:5000/api/courses/" + id)
+      .then((response) => console.log(response.data));
+    course.filter((course) => course.id !== id);
+    //setCourse(course.filter((course) => course.id !== id));
+  };
+
   return (
     <div>
       <div className="actions-bar">
@@ -30,9 +39,12 @@ const CourseDetail = ({ match }) => {
               <a className="button" href="update-course.html">
                 Update Course
               </a>
-              <a className="button" href="#">
+              <button
+                className="button"
+                onClick={() => deleteCourse(course.id)}
+              >
                 Delete Course
-              </a>
+              </button>
             </span>
             <a className="button button-secondary" href="/">
               Return to List
@@ -43,7 +55,7 @@ const CourseDetail = ({ match }) => {
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <h3 class="course--title">{course.title}</h3>
-                <p>By Paula Chuks</p>
+                <p>By Chuks</p>
               </div>
             </div>
           </div>

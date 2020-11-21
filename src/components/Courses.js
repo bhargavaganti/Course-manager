@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CourseDisplay from "./CourseDisplay";
+import CreateCourseDisplay from "./CreateCourseDisplay";
 
 const Courses = () => {
   const [courses, setCourse] = useState([]);
@@ -22,10 +23,11 @@ const Courses = () => {
   };
 
   return (
-    <div>
+    <div className="bounds">
       {courses.map((course) => (
         <CourseDisplay title={course.title} key={course.id} id={course.id} />
       ))}
+      <CreateCourseDisplay />
     </div>
   );
 };

@@ -26,7 +26,13 @@ router.get(
   asyncHandler(async (req, res, next) => {
     try {
       const courses = await Course.findAll({
-        attributes: ["id", "title", "description", "estimatedTime"],
+        attributes: [
+          "id",
+          "title",
+          "description",
+          "estimatedTime",
+          "materialsNeeded",
+        ],
         include: [
           {
             model: User,
@@ -159,21 +165,23 @@ router.put(
 //Send a DELETE request to /course/:id to Delete a course
 router.delete(
   "/courses/:id",
-  authenticateUser,
+  //authenticateUser,
   asyncHandler(async (req, res, next) => {
     try {
-      const user = req.currentUser;
+      //const user = req.currentUser;
       const course = await Course.findByPk(req.params.id);
+      await course.destroy();
+      res.status(204).end();
       //checks if the course belongs to the current authenticated user
-      if (course.userId === user.id) {
-        await course.destroy();
-        res.status(204).end();
-      } else {
-        res.status(403).json({
-          message:
-            "Authentication Failed. You do not have access to delete this course",
-        });
-      }
+      // if (course.userId === user.id) {
+      //   await course.destroy();
+      //   res.status(204).end();
+      // } else {
+      //   res.status(403).json({
+      //     message:
+      //       "Authentication Failed. You do not have access to delete this course",
+      //   });
+      // }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         const errors = error.errors.map((err) => err.message);

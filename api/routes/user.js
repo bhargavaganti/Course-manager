@@ -39,9 +39,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const user = req.body;
     try {
-      if (
-       user
-      ) {
+      if (user) {
         //Hashing the user password before persisting the data in the database
         user.password = bcryptjs.hashSync(user.password);
         await User.create({
