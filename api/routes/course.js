@@ -168,20 +168,20 @@ router.delete(
   //authenticateUser,
   asyncHandler(async (req, res, next) => {
     try {
-      //const user = req.currentUser;
+      const user = req.currentUser;
       const course = await Course.findByPk(req.params.id);
       await course.destroy();
       res.status(204).end();
       //checks if the course belongs to the current authenticated user
-      // if (course.userId === user.id) {
-      //   await course.destroy();
-      //   res.status(204).end();
-      // } else {
-      //   res.status(403).json({
-      //     message:
-      //       "Authentication Failed. You do not have access to delete this course",
-      //   });
-      // }
+      if (course.userId === user.id) {
+        await course.destroy();
+        res.status(204).end();
+      } else {
+        res.status(403).json({
+          message:
+            "Authentication Failed. You do not have access to delete this course",
+        });
+      }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         const errors = error.errors.map((err) => err.message);
