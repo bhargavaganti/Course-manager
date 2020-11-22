@@ -35,10 +35,11 @@ class CreateCourse extends Component {
 
   handleCancel = (e) => {
     e.preventDefault();
-    window.location.href = "/";
+    this.props.history.push("/");
   };
 
   render() {
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
     return (
       <div className="bounds course--detail">
         <h1>Create Course</h1>
@@ -64,7 +65,7 @@ class CreateCourse extends Component {
                     type="text"
                     className="input-title course--title--input"
                     placeholder="Course title..."
-                    value={this.state.title}
+                    value={title}
                     onChange={this.changeHandler}
                   />
                 </div>
@@ -77,7 +78,7 @@ class CreateCourse extends Component {
                     name="description"
                     className=""
                     placeholder="Course description..."
-                    value={this.state.description}
+                    value={description}
                     onChange={this.changeHandler}
                   />
                 </div>
@@ -95,7 +96,7 @@ class CreateCourse extends Component {
                         type="text"
                         className="course--time--input"
                         placeholder="Hours"
-                        value={this.state.estimatedTime}
+                        value={estimatedTime}
                         onChange={this.changeHandler}
                       />
                     </div>
@@ -108,7 +109,7 @@ class CreateCourse extends Component {
                         name="materialsNeeded"
                         className=""
                         placeholder="List materials..."
-                        value={this.state.materialsNeeded}
+                        value={materialsNeeded}
                         onChange={this.changeHandler}
                       />
                     </div>

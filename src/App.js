@@ -7,9 +7,11 @@ import UserSignUp from "./components/UserSignUp";
 import UserSignIn from "./components/UserSignIn";
 import UserSignOut from "./components/UserSignOut";
 import CreateCourse from "./components/CreateCourse";
+import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
+  //signIn = (emailAddress, password) => {};
   return (
     <Router>
       <div className="App">
@@ -21,6 +23,7 @@ const App = () => {
           <Route path="/signup" component={UserSignUp} />
           <Route path="/signin" component={UserSignIn} />
           <Route path="/signout" component={UserSignOut} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </Router>
