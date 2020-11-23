@@ -11,7 +11,6 @@ import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
-  //signIn = (emailAddress, password) => {};
   return (
     <Router>
       <div className="App">
