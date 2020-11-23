@@ -7,6 +7,7 @@ const { sequelize, models } = require("../db");
 const { User } = models;
 
 const authenticateUser = require("../middleware/authenticateUser");
+const { useReducer } = require("react");
 
 function asyncHandler(cb) {
   return async (req, res, next) => {
@@ -40,8 +41,14 @@ router.post(
     const user = req.body;
     try {
       if (user) {
-        //Hashing the user password before persisting the data in the database
-        user.password = bcryptjs.hashSync(user.password);
+        if (user.password !== "") {
+          // if (req.body.password !== req.body.confirmpassword) {
+          //   throw Error("password do not match");
+          // }
+          //Hashing the user password before persisting the data in the database
+          user.password = bcryptjs.hashSync(user.password, 10);
+        }
+
         await User.create({
           firstName: user.firstName,
           lastName: user.lastName,

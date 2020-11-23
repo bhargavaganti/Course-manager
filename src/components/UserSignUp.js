@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class UserSignUp extends Component {
   state = {
@@ -45,14 +46,15 @@ class UserSignUp extends Component {
       });
     } else {
       axios
-        .post("http://localhost:5000/api/users", user)
+        .post("http://localhost:5000/api/courses", user)
 
         .then((errors) => {
           if (errors.length) {
+            console.error(errors);
             this.setState({ errors });
           } else {
             console.log(
-              `${emailAddress} is successfully signed up and authenticated `
+              `${firstName} ${lastName} is successfully signed up and authenticated with ${emailAddress}!`
             );
           }
         })
@@ -61,6 +63,7 @@ class UserSignUp extends Component {
           this.props.history.push("/error");
         });
     }
+    //e.currentTarget.reset();
   };
 
   handleCancel = (e) => {
@@ -157,8 +160,10 @@ class UserSignUp extends Component {
               </div>
             </form>
           </div>
-          <p>&nbsp;</p>
-          <p>Already have a user account?</p>
+          <p>
+            Already have a user account? <Link to="/signin">Click here</Link> to
+            sign in!
+          </p>
         </div>
       </div>
     );
