@@ -46,7 +46,7 @@ class UserSignUp extends Component {
       });
     } else {
       axios
-        .post("http://localhost:5000/api/courses", user)
+        .post("http://localhost:5000/api/users", user)
 
         .then((errors) => {
           if (errors.length) {

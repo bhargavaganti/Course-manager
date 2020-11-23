@@ -7,7 +7,6 @@ const { sequelize, models } = require("../db");
 const { User } = models;
 
 const authenticateUser = require("../middleware/authenticateUser");
-const { useReducer } = require("react");
 
 function asyncHandler(cb) {
   return async (req, res, next) => {
