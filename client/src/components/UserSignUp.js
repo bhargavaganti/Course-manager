@@ -36,7 +36,6 @@ class UserSignUp extends Component {
                   type="text"
                   name="firstName"
                   id="firstName"
-                  required
                   value={firstName}
                   placeholder="First Name"
                   className="form-control"
@@ -46,7 +45,6 @@ class UserSignUp extends Component {
                   type="text"
                   name="lastName"
                   id="lastName"
-                  required
                   value={lastName}
                   placeholder="Last Name"
                   className="form-control"
@@ -56,7 +54,6 @@ class UserSignUp extends Component {
                   type="text"
                   name="emailAddress"
                   id="emailAddress"
-                  required
                   value={emailAddress}
                   placeholder="Email Address"
                   className="form-control"
@@ -66,7 +63,6 @@ class UserSignUp extends Component {
                   type="password"
                   name="password"
                   id="password"
-                  required
                   value={password}
                   onChange={this.change}
                   placeholder="Password"
@@ -76,7 +72,6 @@ class UserSignUp extends Component {
                   type="password"
                   name="confirmPassword"
                   id="confirmPassword"
-                  required
                   value={confirmPassword}
                   onChange={this.change}
                   placeholder="Confirm Password"
