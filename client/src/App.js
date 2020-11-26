@@ -10,6 +10,9 @@ import CreateCourse from "./components/CreateCourse";
 import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import withContext from "./Context";
+
+const UserSignUpWithContext = withContext(UserSignUp);
 const App = () => {
   return (
     <Router>
@@ -19,7 +22,7 @@ const App = () => {
           <Route path="/" exact component={Courses} />
           <Route path="/courses/create" exact component={CreateCourse} />
           <Route path="/courses/:id" component={CourseDetail} />
-          <Route path="/signup" component={UserSignUp} />
+          <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignIn} />
           <Route path="/signout" component={UserSignOut} />
           <Route component={NotFound} />
