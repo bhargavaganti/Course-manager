@@ -61,7 +61,7 @@ router.post(
       if (err.name === "SequelizeValidationError") {
         const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
-        return res.status(400).json({ errors });
+        res.status(400).json({ errors });
         next(err);
       } else {
         throw error;
