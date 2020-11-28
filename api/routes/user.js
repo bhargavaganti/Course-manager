@@ -55,18 +55,19 @@ router.post(
           password: user.password,
         });
 
-        res.status(201).location("/").end();
+        res.status(201).json({ message: "created successful" });
       }
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+    } catch (err) {
+      if (err.name === "SequelizeValidationError") {
+        const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
-        next(error);
+        return res.status(400).json({ errors });
+        next(err);
       } else {
         throw error;
       }
     }
   })
 );
-
+//res.status(400).json({ errors: errorMessages });
 module.exports = router;
