@@ -18,8 +18,8 @@ class UserSignUp extends Component {
       lastName,
       emailAddress,
       password,
-      errors,
       confirmPassword,
+      errors,
     } = this.state;
     return (
       <div className="bounds">
@@ -38,7 +38,6 @@ class UserSignUp extends Component {
                   id="firstName"
                   value={firstName}
                   placeholder="First Name"
-                  className="form-control"
                   onChange={this.change}
                 />
                 <input
@@ -47,7 +46,6 @@ class UserSignUp extends Component {
                   id="lastName"
                   value={lastName}
                   placeholder="Last Name"
-                  className="form-control"
                   onChange={this.change}
                 />
                 <input
@@ -56,7 +54,6 @@ class UserSignUp extends Component {
                   id="emailAddress"
                   value={emailAddress}
                   placeholder="Email Address"
-                  className="form-control"
                   onChange={this.change}
                 />
                 <input
@@ -66,7 +63,6 @@ class UserSignUp extends Component {
                   value={password}
                   onChange={this.change}
                   placeholder="Password"
-                  className="form-control"
                 />
                 <input
                   type="password"
@@ -75,7 +71,6 @@ class UserSignUp extends Component {
                   value={confirmPassword}
                   onChange={this.change}
                   placeholder="Confirm Password"
-                  className="form-control"
                 />
               </React.Fragment>
             )}
@@ -89,13 +84,14 @@ class UserSignUp extends Component {
     );
   }
   change = (e) => {
-    const value = e.target.value;
     const name = e.target.name;
+    const value = e.target.value;
 
-    this.setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    this.setState(() => {
+      return {
+        [name]: value,
+      };
+    });
   };
 
   submit = () => {
@@ -116,21 +112,28 @@ class UserSignUp extends Component {
       confirmPassword,
     };
 
-    context.data
-      .createUser(user)
-      .then((errors) => {
-        if (errors) {
-          this.setState({ errors });
-        } else {
-          console.log(
-            `${firstName} ${lastName} is successfully signed up and authenticated with ${emailAddress}!`
-          );
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.props.history.push("/error");
+    if (password !== confirmPassword) {
+      this.setState({
+        errors: ["password do not match"],
       });
+    } else {
+      context.data
+        .createUser(user)
+        .then((errors) => {
+          if (errors) {
+            this.setState({ errors });
+          } else {
+            console.log(
+              `${emailAddress} has successfully signed up is successfully signed up and authenticated!`
+            );
+          }
+        })
+        .catch((err) => {
+          //handle rejected promises
+          console.log(err);
+          this.props.history.push("/error");
+        });
+    }
   };
 
   cancel = () => {

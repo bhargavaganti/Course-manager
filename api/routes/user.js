@@ -41,9 +41,6 @@ router.post(
     try {
       if (user) {
         if (user.password !== "") {
-          // if (req.body.password !== req.body.confirmpassword) {
-          //   throw Error("password do not match");
-          // }
           //Hashing the user password before persisting the data in the database
           user.password = bcryptjs.hashSync(user.password, 10);
         }
@@ -62,12 +59,15 @@ router.post(
         const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
         res.status(400).json({ errors });
-        next(err);
+        //next(err);
+      } else if (err.name === "SequelizeUniqueConstraintError") {
+        const errors = err.errors.map((err) => err.message);
+        console.error("Validation errors: ", errors);
+        res.status(409).json({ errors });
       } else {
-        throw error;
+        throw err;
       }
     }
   })
 );
-//res.status(400).json({ errors: errorMessages });
 module.exports = router;

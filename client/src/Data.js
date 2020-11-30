@@ -19,7 +19,7 @@ export default class Data {
   }
 
   async getUser() {
-    const response = await this.api("/users", "GET", null);
+    const response = await this.api(`/users`, "GET", null);
     if (response.status === 200) {
       return response.json().then((data) => data);
     } else if (response.status === 401) {
@@ -33,7 +33,7 @@ export default class Data {
     const response = await this.api("/users", "POST", user);
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400) {
+    } else if (response.status === 400 || response.status === 409) {
       return response.json().then((data) => {
         return data.errors;
       });

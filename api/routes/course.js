@@ -150,13 +150,14 @@ router.put(
       } else {
         res.status(404).json({ message: "Course not found" });
       }
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+    } catch (err) {
+      if (err.name === "SequelizeValidationError") {
+        const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
-        next(error);
+        res.status(400).json({ errors });
+        //next(error);
       } else {
-        throw error;
+        throw err;
       }
     }
   })
@@ -182,13 +183,14 @@ router.delete(
             "Authentication Failed. You do not have access to delete this course",
         });
       }
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+    } catch (err) {
+      if (err.name === "SequelizeValidationError") {
+        const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
-        next(error);
+        res.status(400).json({ errors });
+        //next(error);
       } else {
-        throw error;
+        throw err;
       }
     }
   })
