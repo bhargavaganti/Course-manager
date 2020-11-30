@@ -1,12 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Form from "./Form";
 
 class UserSignIn extends Component {
   state = {
     emailAddress: "",
-    Password: "",
+    password: "",
+    errors: [],
   };
 
-  changeHandler = (e) => {
+  change = (e) => {
     e.persist();
     const value = e.target.value;
 
@@ -15,36 +18,64 @@ class UserSignIn extends Component {
       [e.target.name]: value,
     }));
   };
+
+  submit = () => {
+    const { context } = this.props;
+    const { emailAddress, password } = this.state;
+    context.actions
+      .signIn(emailAddress, password)
+      .then((user) => {
+        if (user === null) {
+          this.setState(() => {
+            return { errors: ["Sign-in was unsuccessful"] };
+          });
+        } else {
+          this.props.history("/");
+          console.log(`SUCCESS! ${emailAddress} is now signed in`);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.history.push("/error");
+      });
+  };
+
+  cancel = () => {
+    this.props.history.push("/");
+  };
+
   render() {
+    const { emailAddress, password, errors } = this.state;
     return (
-      <div class="bounds">
-        <div class="grid-33 centered signin">
+      <div className="bounds">
+        <div className="grid-33 centered signin">
           <h1>Sign In</h1>
-          <div>
-            <form>
-              <div>
+          <Form
+            cancel={this.cancel}
+            errors={errors}
+            submit={this.submit}
+            submitButtonText="Sign In"
+            elements={() => (
+              <React.Fragment>
                 <input
                   id="emailAddress"
                   name="emailAddress"
                   type="text"
-                  className=""
                   placeholder="Email Address"
-                  value=""
+                  value={emailAddress}
+                  onChange={this.change}
                 />
-              </div>
-              <div>
                 <input
                   id="password"
                   name="password"
                   type="password"
-                  class=""
                   placeholder="Password"
-                  value=""
+                  value={password}
+                  onChange={this.change}
                 />
-              </div>
-              <div></div>
-            </form>
-          </div>
+              </React.Fragment>
+            )}
+          />
         </div>
       </div>
     );
