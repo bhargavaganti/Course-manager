@@ -10,9 +10,12 @@ const authenticateUser = async (req, res, next) => {
   const credentials = auth(req);
 
   if (credentials) {
-    const users = await User.findAll();
-    const user = users.find((u) => u.emailAddress === credentials.name);
+    const user = await User.findOne({
+      where: { emailAddress: credentials.name },
+    });
 
+    console.log(user);
+    console.log(credentials);
     if (user) {
       const authenticated = bcryptjs.compareSync(
         credentials.pass,
@@ -21,7 +24,7 @@ const authenticateUser = async (req, res, next) => {
       if (authenticated) {
         req.currentUser = user;
       } else {
-        message = `Authentication failure for user: ${user.name}`;
+        message = `Authentication failure for user: ${users.emailAddress}`;
       }
     } else {
       message = `User not found for username: ${credentials.name}`;

@@ -24,9 +24,6 @@ router.get(
   authenticateUser,
   asyncHandler(async (req, res, next) => {
     const authUser = req.currentUser;
-    delete authUser.dataValues.password;
-    delete authUser.dataValues.createdAt;
-    delete authUser.dataValues.updatedAt;
     res.json({
       authUser,
     });
@@ -42,17 +39,21 @@ router.post(
       if (user) {
         if (user.password !== "") {
           //Hashing the user password before persisting the data in the database
-          user.password = bcryptjs.hashSync(user.password, 10);
+          user.password = bcryptjs.hashSync(user.password);
         }
 
-        await User.create({
+        const result = await User.build({
           firstName: user.firstName,
           lastName: user.lastName,
-          emailAddress: user.emailAddress,
+          emailAddress: user.emailAddress.trim(),
           password: user.password,
         });
 
-        res.status(201).json({ message: "created successful" });
+        await result.save();
+
+        res
+          .status(201)
+          .json({ message: "created successful", response: result });
       }
     } catch (err) {
       if (err.name === "SequelizeValidationError") {
