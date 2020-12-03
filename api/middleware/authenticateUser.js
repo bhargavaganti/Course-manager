@@ -24,7 +24,7 @@ const authenticateUser = async (req, res, next) => {
       if (authenticated) {
         req.currentUser = user;
       } else {
-        message = `Authentication failure for user: ${users.emailAddress}`;
+        message = `Authentication failure for user: ${user.emailAddress}`;
       }
     } else {
       message = `User not found for username: ${credentials.name}`;
