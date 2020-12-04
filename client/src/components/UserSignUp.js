@@ -120,7 +120,7 @@ class UserSignUp extends Component {
       context.data
         .createUser(user)
         .then((errors) => {
-          if (errors) {
+          if (errors.message) {
             this.setState({ errors });
           } else {
             context.actions.signIn(emailAddress, password).then(() => {
