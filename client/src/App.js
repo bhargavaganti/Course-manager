@@ -11,21 +11,24 @@ import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import withContext from "./Context";
+import PrivateRoute from "./PrivateRoute";
 
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
+const HeaderWithContext = withContext(Header);
 const App = () => {
   return (
     <Router>
       <div className="App">
-        <Header />
+        <HeaderWithContext />
         <Switch>
           <Route path="/" exact component={Courses} />
-          <Route path="/courses/create" exact component={CreateCourse} />
+          <PrivateRoute path="/courses/create" exact component={CreateCourse} />
           <Route path="/courses/:id" component={CourseDetail} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
-          <Route path="/signout" component={UserSignOut} />
+          <Route path="/signout" component={UserSignOutWithContext} />
           <Route component={NotFound} />
         </Switch>
       </div>

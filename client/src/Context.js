@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Cookies from "js-cookie";
 
 import Data from "./Data";
 
@@ -9,10 +10,16 @@ export class Provider extends Component {
     super();
     this.data = new Data();
   }
+
+  state = {
+    authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
+  };
   render() {
+    const { authenticatedUser } = this.state;
     const value = {
+      authenticatedUser,
       data: this.data,
-      actions: { signIn: this.signIn },
+      actions: { signIn: this.signIn, signOut: this.signOut },
     };
     return (
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
@@ -21,10 +28,23 @@ export class Provider extends Component {
 
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);
+    if (user !== null) {
+      console.log(user);
+      this.setState(() => {
+        return {
+          authenticatedUser: user,
+        };
+      });
+      //set cookie
+      Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
+    }
     return user;
   };
 
-  signOut = () => {};
+  signOut = () => {
+    this.setState({ authenticatedUser: null });
+    Cookies.remove("authenticatedUser");
+  };
 }
 
 export const Consumer = Context.Consumer;

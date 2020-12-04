@@ -123,9 +123,9 @@ class UserSignUp extends Component {
           if (errors) {
             this.setState({ errors });
           } else {
-            console.log(
-              `${emailAddress} has successfully signed up is successfully signed up and authenticated!`
-            );
+            context.actions.signIn(emailAddress, password).then(() => {
+              this.props.history.push("/");
+            });
           }
         })
         .catch((err) => {
@@ -139,6 +139,13 @@ class UserSignUp extends Component {
   cancel = () => {
     this.props.history.push("/");
   };
+
+  isEmpty(obj) {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  }
 }
 
 export default UserSignUp;

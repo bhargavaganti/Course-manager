@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Form from "./Form";
 
 class UserSignIn extends Component {
@@ -30,7 +29,7 @@ class UserSignIn extends Component {
             return { errors: ["Sign-in was unsuccessful"] };
           });
         } else {
-          this.props.history("/");
+          this.props.history.push("/");
           console.log(`SUCCESS! ${emailAddress} is now signed in`);
         }
       })
