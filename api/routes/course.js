@@ -60,7 +60,13 @@ router.get(
   asyncHandler(async (req, res, next) => {
     try {
       const course = await Course.findOne({
-        attributes: ["id", "title", "description", "estimatedTime"],
+        attributes: [
+          "id",
+          "title",
+          "description",
+          "estimatedTime",
+          "materialsNeeded",
+        ],
         where: {
           id: req.params.id,
         },

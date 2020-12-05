@@ -25,7 +25,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Courses} />
           <PrivateRoute path="/courses/create" exact component={CreateCourse} />
-          <Route path="/courses/:id" component={CourseDetail} />
+          <PrivateRoute path="/courses/:id" component={CourseDetail} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
