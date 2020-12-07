@@ -24,7 +24,7 @@ class CourseDetail extends Component {
       );
 
       const data = await response.data;
-      console.log(data);
+      //console.log(data);
       if (data) {
         this.setState({
           courseDetail: data,
@@ -41,6 +41,27 @@ class CourseDetail extends Component {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  deleteCourse = () => {
+    const { courseDetail } = this.state;
+    const { context } = this.props;
+    const emailAddress = context.authenticatedUser.authUser.emailAddress;
+    const password = context.authenticatedUser.authUser.password;
+
+    context.data
+      .deleteCourse(courseDetail, emailAddress, password)
+      .then((errors) => {
+        if (errors) {
+          this.setState({ errors });
+        } else {
+          this.props.history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.history.push("/error");
+      });
   };
 
   render() {
@@ -60,10 +81,8 @@ class CourseDetail extends Component {
                 <a className="button" href="update-course.html">
                   Update Course
                 </a>
-                <button
-                  className="button"
-                  onClick={() => this.deleteCourse(courseDetail.id)}
-                >
+
+                <button className="button" onClick={() => this.deleteCourse()}>
                   Delete Course
                 </button>
               </span>

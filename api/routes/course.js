@@ -113,13 +113,13 @@ router.post(
       });
       const courseid = courses.dataValues.id;
       res.status(201).location(`/courses/${courseid}`).end();
-    } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        const errors = error.errors.map((err) => err.message);
+    } catch (err) {
+      if (err.name === "SequelizeValidationError") {
+        const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
-        next(error);
+        res.status(400).json({ errors });
       } else {
-        throw error;
+        throw err;
       }
     }
   })
@@ -172,13 +172,12 @@ router.put(
 //Send a DELETE request to /course/:id to Delete a course
 router.delete(
   "/courses/:id",
-  //authenticateUser,
+  authenticateUser,
   asyncHandler(async (req, res, next) => {
     try {
       const user = req.currentUser;
       const course = await Course.findByPk(req.params.id);
-      await course.destroy();
-      res.status(204).end();
+
       //checks if the course belongs to the current authenticated user
       if (course.userId === user.id) {
         await course.destroy();
@@ -194,7 +193,6 @@ router.delete(
         const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
         res.status(400).json({ errors });
-        //next(error);
       } else {
         throw err;
       }

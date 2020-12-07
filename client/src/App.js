@@ -13,9 +13,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import withContext from "./Context";
 import PrivateRoute from "./PrivateRoute";
 
+const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
+const CreateCourseWithContext = withContext(CreateCourse);
 const HeaderWithContext = withContext(Header);
 const App = () => {
   return (
@@ -24,8 +26,15 @@ const App = () => {
         <HeaderWithContext />
         <Switch>
           <Route path="/" exact component={Courses} />
-          <PrivateRoute path="/courses/create" exact component={CreateCourse} />
-          <PrivateRoute path="/courses/:id" component={CourseDetail} />
+          <PrivateRoute
+            path="/courses/create"
+            exact
+            component={CreateCourseWithContext}
+          />
+          <PrivateRoute
+            path="/courses/:id"
+            component={CourseDetailWithContext}
+          />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
