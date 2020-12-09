@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import authenticateUser from "../../../api/middleware/authenticateUser";
 import Form from "./Form";
 
 class CreateCourse extends Component {
@@ -51,7 +50,8 @@ class CreateCourse extends Component {
     context.data
       .createCourse(course, emailAddress, password)
       .then((errors) => {
-        if (errors.message) {
+        console.log(errors.length);
+        if (errors.length > 0) {
           this.setState({ errors });
         } else {
           this.props.history.push("/");

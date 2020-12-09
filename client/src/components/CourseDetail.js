@@ -1,56 +1,64 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { withRouter } from "react-router";
 import ReactMarkDown from "react-markdown";
 
 class CourseDetail extends Component {
   state = {
     courseDetail: {
-      owner: {},
-      materialsNeeded: {},
+      id: "",
+      title: "",
+      description: "",
+      estimatedTime: "",
+      materialsNeeded: "",
+      userId: "",
+      owner: {
+        firstName: "",
+        lastName: "",
+        emailAddress: "",
+      },
     },
     errors: [],
   };
 
   componentDidMount() {
-    this.getCourseDetails();
+    const id = this.props.match.params.id;
+    const { context } = this.props;
+    context.data
+      .getCourseDetails(id)
+      .then((data) => {
+        if (data) {
+          this.setState({
+            id: data.id,
+            title: data.title,
+            description: data.description,
+            estimatedTime: data.estimatedTime,
+            materialsNeeded: data.materialsNeeded,
+            owner: data.owner,
+            firstName: data.owner.firstName,
+            lastName: data.owner.lastName,
+            emailAddress: data.owner.emailAddress,
+          });
+        } else {
+          this.props.history.push("/notFound");
+        }
+      })
+      .catch((error) => {
+        this.props.history.push("/errors");
+      });
   }
 
-  getCourseDetails = async () => {
-    try {
-      const id = this.props.match.params.id;
-      const response = await axios.get(
-        `http://localhost:5000/api/courses/${id}`
-      );
-
-      const data = await response.data;
-      //console.log(data);
-      if (data) {
-        this.setState({
-          courseDetail: data,
-          title: data.title,
-          description: data.description,
-          estimatedTime: data.estimatedTime,
-          materialsNeeded: data.materialsNeeded,
-          owner: data.owner,
-          emailAddress: data.owner.emailAddress,
-        });
-      } else {
-        this.props.history.push("/error");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   deleteCourse = () => {
-    const { courseDetail } = this.state;
+    const id = this.props.match.params.id;
     const { context } = this.props;
+    const authUserId = context.authenticatedUser.authUser.id;
+    console.log(authUserId);
     const emailAddress = context.authenticatedUser.authUser.emailAddress;
+    console.log(emailAddress);
     const password = context.authenticatedUser.authUser.password;
+    console.log(password);
 
     context.data
-      .deleteCourse(courseDetail, emailAddress, password)
+      .deleteCourse(id, emailAddress, password)
       .then((errors) => {
         if (errors) {
           this.setState({ errors });
@@ -58,9 +66,8 @@ class CourseDetail extends Component {
           this.props.history.push("/");
         }
       })
-      .catch((err) => {
-        console.log(err);
-        this.props.history.push("/error");
+      .catch((errors) => {
+        console.log(errors);
       });
   };
 
@@ -70,7 +77,8 @@ class CourseDetail extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      courseDetail,
+      firstName,
+      lastName,
     } = this.state;
     return (
       <div>
@@ -82,7 +90,7 @@ class CourseDetail extends Component {
                   Update Course
                 </a>
 
-                <button className="button" onClick={() => this.deleteCourse()}>
+                <button className="button" to="/" onClick={this.deleteCourse}>
                   Delete Course
                 </button>
               </span>
@@ -96,8 +104,7 @@ class CourseDetail extends Component {
                   <h4 className="course--label">Course</h4>
                   <h3 className="course--title">{title}</h3>
                   <p>
-                    By {courseDetail.owner?.firstName}{" "}
-                    {courseDetail.owner?.lastName}
+                    By {firstName} {lastName}
                   </p>
                 </div>
                 <div className="course--description">
