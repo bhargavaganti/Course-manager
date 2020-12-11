@@ -74,7 +74,7 @@ router.get(
           {
             model: User,
             as: "owner",
-            attributes: ["firstName", "lastName", "emailAddress"],
+            attributes: ["firstName", "lastName", "emailAddress", "id"],
           },
         ],
       });
@@ -101,6 +101,7 @@ router.get(
 //Send a POST  request to /courses to CREATE  a course
 router.post(
   "/courses",
+  authenticateUser,
   asyncHandler(async (req, res, next) => {
     const course = req.body;
     try {

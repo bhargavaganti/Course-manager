@@ -17,6 +17,8 @@ const authenticateUser = async (req, res, next) => {
       where: { emailAddress: credentials.name },
     });
 
+    console.log(user);
+
     if (user) {
       const authenticated = bcryptjs.compareSync(
         credentials.pass,

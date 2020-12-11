@@ -116,6 +116,10 @@ export default class Data {
       return response.json().then((data) => {
         return data;
       });
+    } else if (response.status === 403) {
+      return response.json().then((data) => {
+        return data;
+      });
     } else {
       throw new Error();
     }

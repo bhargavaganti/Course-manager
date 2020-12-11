@@ -30,6 +30,7 @@ export class Provider extends Component {
     const user = await this.data.getUser(emailAddress, password);
     if (user !== null) {
       console.log(user);
+      user.password = password;
       this.setState(() => {
         return {
           authenticatedUser: user,

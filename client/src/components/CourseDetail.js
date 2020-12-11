@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import ReactMarkDown from "react-markdown";
+import { Link } from "react-router-dom";
 
 class CourseDetail extends Component {
   state = {
@@ -23,6 +24,7 @@ class CourseDetail extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     const { context } = this.props;
+    const userId = context.authenticatedUser.id;
     context.data
       .getCourseDetails(id)
       .then((data) => {
@@ -33,6 +35,7 @@ class CourseDetail extends Component {
             description: data.description,
             estimatedTime: data.estimatedTime,
             materialsNeeded: data.materialsNeeded,
+            userId: userId,
             owner: data.owner,
             firstName: data.owner.firstName,
             lastName: data.owner.lastName,
@@ -50,50 +53,54 @@ class CourseDetail extends Component {
   deleteCourse = () => {
     const id = this.props.match.params.id;
     const { context } = this.props;
-    const authUserId = context.authenticatedUser.authUser.id;
-    console.log(authUserId);
-    const emailAddress = context.authenticatedUser.authUser.emailAddress;
-    console.log(emailAddress);
-    const password = context.authenticatedUser.authUser.password;
-    console.log(password);
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
 
-    context.data
+    /*context.data
       .deleteCourse(id, emailAddress, password)
-      .then((errors) => {
-        if (errors) {
-          this.setState({ errors });
-        } else {
-          this.props.history.push("/");
-        }
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
+      .then((res) => (window.location.href = "/"));*/
+
+    context.data.deleteCourse(id, emailAddress, password).then((errors) => {
+      console.log(errors);
+      if (errors) {
+        this.setState({ errors });
+      } else {
+        this.props.history.push("/");
+      }
+    });
   };
 
   render() {
+    const { context } = this.props;
+    const authUser = context.authenticatedUser;
+    const authUserId = context.authenticatedUser.id;
     const {
       title,
       description,
       estimatedTime,
       materialsNeeded,
+      userId,
       firstName,
       lastName,
     } = this.state;
+    //console.log(userId);
+    //console.log(authUser);
+    //console.log(authUserId);
     return (
       <div>
         <div className="actions-bar">
           <div className="bounds">
             <div className="grid-100">
               <span>
-                <a className="button" href="update-course.html">
+                <Link className="button" to="">
                   Update Course
-                </a>
+                </Link>
 
                 <button className="button" to="/" onClick={this.deleteCourse}>
                   Delete Course
                 </button>
               </span>
+
               <a className="button button-secondary" href="/">
                 Return to List
               </a>

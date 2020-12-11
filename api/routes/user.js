@@ -23,9 +23,14 @@ router.get(
   "/users",
   authenticateUser,
   asyncHandler(async (req, res, next) => {
-    const authUser = req.currentUser;
+    const user = req.currentUser;
     res.json({
-      authUser,
+      //authUser,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailAddress: user.emailAddress,
+      password: user.password,
+      id: user.id,
     });
   })
 );
@@ -45,7 +50,7 @@ router.post(
         const result = await User.build({
           firstName: user.firstName,
           lastName: user.lastName,
-          emailAddress: user.emailAddress.trim(),
+          emailAddress: user.emailAddress,
           password: user.password,
         });
 
@@ -60,7 +65,6 @@ router.post(
         const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);
         res.status(400).json({ errors });
-        //next(err);
       } else if (err.name === "SequelizeUniqueConstraintError") {
         const errors = err.errors.map((err) => err.message);
         console.error("Validation errors: ", errors);

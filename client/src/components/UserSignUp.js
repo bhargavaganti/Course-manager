@@ -124,6 +124,7 @@ class UserSignUp extends Component {
             this.setState({ errors });
           } else {
             context.actions.signIn(emailAddress, password).then(() => {
+              console.log(`${emailAddress} ${password}`);
               this.props.history.push("/");
             });
           }

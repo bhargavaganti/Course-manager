@@ -17,8 +17,8 @@ class CreateCourse extends Component {
     const { context } = this.props;
     console.log(context.authenticatedUser);
     this.setState({
-      firstName: context.authenticatedUser.authUser.firstName,
-      lastName: context.authenticatedUser.authUser.lastName,
+      firstName: context.authenticatedUser.firstName,
+      lastName: context.authenticatedUser.lastName,
     });
   }
 
@@ -34,9 +34,9 @@ class CreateCourse extends Component {
 
   submit = () => {
     const { context } = this.props;
-    const emailAddress = context.authenticatedUser.authUser.emailAddress;
-    const password = context.authenticatedUser.authUser.password;
-    const userId = context.authenticatedUser.authUser.id;
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
+    const userId = context.authenticatedUser.id;
     const { title, description, estimatedTime, materialsNeeded } = this.state;
 
     const course = {

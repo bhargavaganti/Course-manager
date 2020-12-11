@@ -15,7 +15,7 @@ class Header extends React.PureComponent {
                 <React.Fragment>
                   <span>
                     Welcome {""}
-                    {authUser.authUser.firstName}
+                    {authUser.firstName}
                   </span>
                   <Link to="/signout">Sign out</Link>
                 </React.Fragment>
