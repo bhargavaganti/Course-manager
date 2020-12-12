@@ -8,11 +8,13 @@ import UserSignIn from "./components/UserSignIn";
 import UserSignOut from "./components/UserSignOut";
 import CreateCourse from "./components/CreateCourse";
 import NotFound from "./components/NotFound";
+import UpdateCourse from "./components/UpdateCourse";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import withContext from "./Context";
 import PrivateRoute from "./PrivateRoute";
 
+const UpdateCourseWithContext = withContext(UpdateCourse);
 const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UserSignUpWithContext = withContext(UserSignUp);
@@ -33,6 +35,10 @@ const App = () => {
             component={CreateCourseWithContext}
           />
           {/*<Route path="/notFound" component={NotFound} />*/}
+          <PrivateRoute
+            path="/courses/:id/update"
+            component={UpdateCourseWithContext}
+          />
           <Route path="/courses/:id" component={CourseDetailWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />

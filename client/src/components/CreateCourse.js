@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Form from "./Form";
 
-class CreateCourse extends Component {
+export default class CreateCourse extends Component {
   state = {
     title: "",
     description: "",
@@ -15,7 +15,6 @@ class CreateCourse extends Component {
 
   componentDidMount() {
     const { context } = this.props;
-    console.log(context.authenticatedUser);
     this.setState({
       firstName: context.authenticatedUser.firstName,
       lastName: context.authenticatedUser.lastName,
@@ -24,11 +23,12 @@ class CreateCourse extends Component {
 
   change = (e) => {
     e.persist();
+    const name = e.target.name;
     const value = e.target.value;
 
     this.setState((prevState) => ({
       ...prevState,
-      [e.target.name]: value,
+      [name]: value,
     }));
   };
 
@@ -152,5 +152,3 @@ class CreateCourse extends Component {
     );
   }
 }
-
-export default CreateCourse;

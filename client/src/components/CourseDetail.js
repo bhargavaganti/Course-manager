@@ -74,6 +74,7 @@ class CourseDetail extends Component {
     const { context } = this.props;
     const authUser = context.authenticatedUser;
     const authUserId = context.authenticatedUser.id;
+    const id = this.props.match.params.id;
     const {
       title,
       description,
@@ -92,7 +93,7 @@ class CourseDetail extends Component {
           <div className="bounds">
             <div className="grid-100">
               <span>
-                <Link className="button" to="">
+                <Link className="button" to={`/courses/${id}/update`}>
                   Update Course
                 </Link>
 

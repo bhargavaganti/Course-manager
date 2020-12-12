@@ -1,28 +1,112 @@
 import React, { Component } from "react";
+import Form from "./Form";
 
 export default class UpdateCourse extends Component {
   state = {
-    course: {
-      title: "",
-      description: "",
-      estimatedTime: "",
-      materialsNeeded: "",
-    },
+    title: "",
+    description: "",
+    estimatedTime: "",
+    materialsNeeded: "",
+    firstName: "",
+    lastName: "",
+    errors: [],
   };
 
   componentDidMount() {
+    const { id } = this.props.match.params;
     const { context } = this.props;
+    const firstName = context.authenticatedUser.firstName;
+    const lastName = context.authenticatedUser.lastName;
+    context.data
+      .getCourseDetails(id)
+      .then((data) => {
+        if (data) {
+          this.setState({
+            title: data.title,
+            description: data.description,
+            estimatedTime: data.estimatedTime,
+            materialsNeeded: data.materialsNeeded,
+            firstName: firstName,
+            lastName: lastName,
+          });
+        }
+      }) //handle server error
+      .catch((error) => {
+        this.props.history.push("/error");
+      });
   }
 
+  //handle cancel button
+  cancel = () => {
+    this.props.history.push("/");
+  };
+
+  //update states value
+  change = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    this.setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  //handleSubmit function
+
+  submit = () => {
+    const { id } = this.props.match.params;
+    //get context
+    const { context } = this.props;
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
+    const userId = context.authenticatedUser.id;
+    //get course props from state
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
+
+    //create a new payload
+    const updatedCourse = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId,
+    };
+
+    context.data
+      .updateCourse(id, updatedCourse, emailAddress, password)
+      .then((errors) => {
+        if (errors.length > 0) {
+          this.setState({ errors });
+        } else {
+          this.props.history.push("/");
+        }
+      }) //handle server error
+      .catch((err) => {
+        console.log(err);
+        this.props.history.push("/error");
+      });
+  };
+
   render() {
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      firstName,
+      lastName,
+      errors,
+    } = this.state;
     return (
       <div className="bounds course--detail">
+        <h1>Update Course</h1>
         <div>
           <Form
             cancel={this.cancel}
-            errors={errors}
             submit={this.submit}
-            submitButtonText="Create Course"
+            errors={errors}
+            submitButtonText="Update Course"
             elements={() => (
               <React.Fragment>
                 <div className="grid-66">

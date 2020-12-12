@@ -104,6 +104,29 @@ export default class Data {
     }
   }
 
+  //UPDATE a specific course using the course ID
+  async updateCourse(id, updatedCourse, emailAddress, password) {
+    const response = await this.api(
+      `/courses/${id}`,
+      "PUT",
+      updatedCourse,
+      true,
+      {
+        emailAddress,
+        password,
+      }
+    );
+    if (response.status === 204) {
+      return [];
+    } else if (response.status === 400) {
+      return response.json().then((data) => {
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
   // DELETE call to DELETE a specific course using the course ID
   async deleteCourse(id, emailAddress, password) {
     const response = await this.api(`/courses/${id}`, "DELETE", null, true, {
