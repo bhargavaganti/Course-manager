@@ -9,7 +9,6 @@ export default class CreateCourse extends Component {
     materialsNeeded: "",
     firstName: "",
     lastName: "",
-    password: "",
     errors: [],
   };
 
@@ -20,17 +19,6 @@ export default class CreateCourse extends Component {
       lastName: context.authenticatedUser.lastName,
     });
   }
-
-  change = (e) => {
-    e.persist();
-    const name = e.target.name;
-    const value = e.target.value;
-
-    this.setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
 
   submit = () => {
     const { context } = this.props;
@@ -65,6 +53,17 @@ export default class CreateCourse extends Component {
 
   cancel = () => {
     this.props.history.push("/");
+  };
+
+  //handle cancel button
+  change = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    this.setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   render() {

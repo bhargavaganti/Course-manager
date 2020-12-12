@@ -61,8 +61,7 @@ class CourseDetail extends Component {
       .then((res) => (window.location.href = "/"));*/
 
     context.data.deleteCourse(id, emailAddress, password).then((errors) => {
-      console.log(errors);
-      if (errors) {
+      if (errors.length > 0) {
         this.setState({ errors });
       } else {
         this.props.history.push("/");
@@ -72,6 +71,7 @@ class CourseDetail extends Component {
 
   render() {
     const { context } = this.props;
+    const userId = context.authenticatedUser.id;
     const authUser = context.authenticatedUser;
     const authUserId = context.authenticatedUser.id;
     const id = this.props.match.params.id;
@@ -80,31 +80,40 @@ class CourseDetail extends Component {
       description,
       estimatedTime,
       materialsNeeded,
-      userId,
       firstName,
       lastName,
     } = this.state;
-    //console.log(userId);
-    //console.log(authUser);
-    //console.log(authUserId);
+    console.log(userId);
+    console.log(authUser);
+    console.log(authUserId);
     return (
       <div>
         <div className="actions-bar">
           <div className="bounds">
             <div className="grid-100">
-              <span>
-                <Link className="button" to={`/courses/${id}/update`}>
-                  Update Course
-                </Link>
+              {authUser && authUserId === userId ? (
+                <React.Fragment>
+                  <span>
+                    <Link className="button" to={`/courses/${id}/update`}>
+                      Update Course
+                    </Link>
 
-                <button className="button" to="/" onClick={this.deleteCourse}>
-                  Delete Course
-                </button>
-              </span>
-
-              <a className="button button-secondary" href="/">
-                Return to List
-              </a>
+                    <button
+                      className="button"
+                      to="/"
+                      onClick={this.deleteCourse}
+                    >
+                      Delete Course
+                    </button>
+                  </span>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <a className="button button-secondary" href="/">
+                    Return to List
+                  </a>
+                </React.Fragment>
+              )}
             </div>
             <div className="bounds course--detail">
               <div className="grid-66">

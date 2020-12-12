@@ -15,8 +15,11 @@ export default class UpdateCourse extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     const { context } = this.props;
-    const firstName = context.authenticatedUser.firstName;
-    const lastName = context.authenticatedUser.lastName;
+    this.setState({
+      firstName: context.authenticatedUser.firstName,
+      lastName: context.authenticatedUser.lastName,
+    });
+
     context.data
       .getCourseDetails(id)
       .then((data) => {
@@ -26,8 +29,6 @@ export default class UpdateCourse extends Component {
             description: data.description,
             estimatedTime: data.estimatedTime,
             materialsNeeded: data.materialsNeeded,
-            firstName: firstName,
-            lastName: lastName,
           });
         }
       }) //handle server error
@@ -38,7 +39,8 @@ export default class UpdateCourse extends Component {
 
   //handle cancel button
   cancel = () => {
-    this.props.history.push("/");
+    const { id } = this.props.match.params;
+    this.props.history.push(`/courses/${id}`);
   };
 
   //update states value
