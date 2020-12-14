@@ -32,6 +32,7 @@ router.get(
           "description",
           "estimatedTime",
           "materialsNeeded",
+          "userId",
         ],
         include: [
           {

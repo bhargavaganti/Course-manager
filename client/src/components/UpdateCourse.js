@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Form from "./Form";
 
 export default class UpdateCourse extends Component {
@@ -7,6 +8,7 @@ export default class UpdateCourse extends Component {
     description: "",
     estimatedTime: "",
     materialsNeeded: "",
+    userId: "",
     firstName: "",
     lastName: "",
     errors: [],
@@ -15,6 +17,8 @@ export default class UpdateCourse extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     const { context } = this.props;
+    //get authenticate user id
+    const authID = context.authenticatedUser.id;
     this.setState({
       firstName: context.authenticatedUser.firstName,
       lastName: context.authenticatedUser.lastName,
@@ -23,12 +27,24 @@ export default class UpdateCourse extends Component {
     context.data
       .getCourseDetails(id)
       .then((data) => {
+        //console.log(data);
+        const course = data;
+        //console.log(course);
         if (data) {
+          const {
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+            userId,
+          } = course;
+
           this.setState({
-            title: data.title,
-            description: data.description,
-            estimatedTime: data.estimatedTime,
-            materialsNeeded: data.materialsNeeded,
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded,
+            userId,
           });
         }
       }) //handle server error
@@ -62,9 +78,15 @@ export default class UpdateCourse extends Component {
     const { context } = this.props;
     const emailAddress = context.authenticatedUser.emailAddress;
     const password = context.authenticatedUser.password;
-    const userId = context.authenticatedUser.id;
+    const authUserId = context.authenticatedUser.id;
     //get course props from state
-    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId,
+    } = this.state;
 
     //create a new payload
     const updatedCourse = {

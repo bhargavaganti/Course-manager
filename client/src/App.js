@@ -8,6 +8,8 @@ import UserSignIn from "./components/UserSignIn";
 import UserSignOut from "./components/UserSignOut";
 import CreateCourse from "./components/CreateCourse";
 import NotFound from "./components/NotFound";
+import Forbidden from "./components/Forbidden";
+import UnhandledError from "./components/UnhandledError";
 import UpdateCourse from "./components/UpdateCourse";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -34,7 +36,7 @@ const App = () => {
             exact
             component={CreateCourseWithContext}
           />
-          {/*<Route path="/notFound" component={NotFound} />*/}
+
           <PrivateRoute
             path="/courses/:id/update"
             component={UpdateCourseWithContext}
@@ -43,6 +45,9 @@ const App = () => {
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
           <Route path="/signout" component={UserSignOutWithContext} />
+          <Route path="/notfound" component={NotFound} />
+          <Route path="/forbidden" component={Forbidden} />
+          <Route path="/error" component={UnhandledError} />
           <Route component={NotFound} />
         </Switch>
       </div>

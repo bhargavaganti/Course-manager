@@ -56,17 +56,19 @@ class CourseDetail extends Component {
     const emailAddress = context.authenticatedUser.emailAddress;
     const password = context.authenticatedUser.password;
 
-    /*context.data
+    context.data
       .deleteCourse(id, emailAddress, password)
-      .then((res) => (window.location.href = "/"));*/
-
-    context.data.deleteCourse(id, emailAddress, password).then((errors) => {
-      if (errors.length > 0) {
-        this.setState({ errors });
-      } else {
-        this.props.history.push("/");
-      }
-    });
+      .then((errors) => {
+        if (errors.length > 0) {
+          this.setState({ errors });
+        } else {
+          this.props.history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.props.history.push("/error");
+      });
   };
 
   render() {
@@ -83,9 +85,7 @@ class CourseDetail extends Component {
       firstName,
       lastName,
     } = this.state;
-    console.log(userId);
-    console.log(authUser);
-    console.log(authUserId);
+
     return (
       <div>
         <div className="actions-bar">
