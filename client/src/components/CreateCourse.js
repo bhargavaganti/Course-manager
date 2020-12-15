@@ -19,7 +19,7 @@ export default class CreateCourse extends Component {
       lastName: context.authenticatedUser.lastName,
     });
   }
-
+  //submit function
   submit = () => {
     const { context } = this.props;
     const emailAddress = context.authenticatedUser.emailAddress;
@@ -34,7 +34,7 @@ export default class CreateCourse extends Component {
       materialsNeeded,
       userId,
     };
-
+    //Post/create a course using using the context method createCourse in data.js
     context.data
       .createCourse(course, emailAddress, password)
       .then((errors) => {
@@ -54,7 +54,6 @@ export default class CreateCourse extends Component {
     this.props.history.push("/");
   };
 
-  //handle cancel button
   change = (e) => {
     const name = e.target.name;
     const value = e.target.value;

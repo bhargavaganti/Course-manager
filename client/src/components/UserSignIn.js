@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Form from "./Form";
 
 class UserSignIn extends Component {
@@ -17,7 +18,7 @@ class UserSignIn extends Component {
       [e.target.name]: value,
     }));
   };
-
+  //submit function
   submit = () => {
     const { context } = this.props;
     const { from } = this.props.location.state || { from: { pathname: "/" } };
@@ -39,7 +40,7 @@ class UserSignIn extends Component {
         this.props.history.push("/error");
       });
   };
-
+  //cancel function
   cancel = () => {
     this.props.history.push("/");
   };
@@ -76,6 +77,10 @@ class UserSignIn extends Component {
               </React.Fragment>
             )}
           />
+          <p>
+            Don't have a user account? <Link to="/signup">Click here</Link> to
+            sign up!
+          </p>
         </div>
       </div>
     );

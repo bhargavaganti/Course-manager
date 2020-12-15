@@ -17,8 +17,6 @@ export default class UpdateCourse extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     const { context } = this.props;
-    //get authenticate user id
-    const authID = context.authenticatedUser.id;
     this.setState({
       firstName: context.authenticatedUser.firstName,
       lastName: context.authenticatedUser.lastName,
@@ -78,7 +76,6 @@ export default class UpdateCourse extends Component {
     const { context } = this.props;
     const emailAddress = context.authenticatedUser.emailAddress;
     const password = context.authenticatedUser.password;
-    const authUserId = context.authenticatedUser.id;
     //get course props from state
     const {
       title,
@@ -103,7 +100,7 @@ export default class UpdateCourse extends Component {
         if (errors.length > 0) {
           this.setState({ errors });
         } else {
-          this.props.history.push("/");
+          this.props.history.push(`/courses/${id}`);
         }
       }) //handle server error
       .catch((err) => {

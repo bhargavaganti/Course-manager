@@ -6,7 +6,7 @@ export default class Courses extends Component {
   state = {
     courses: [],
   };
-
+  //get all course  and display them when the page loads
   componentDidMount() {
     const { context } = this.props;
     context.data

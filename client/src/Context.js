@@ -12,7 +12,7 @@ export class Provider extends Component {
   }
 
   state = {
-    authenticatedUser: Cookies.getJSON("authenticatedUser") || "",
+    authenticatedUser: Cookies.getJSON("authenticatedUser") || null,
   };
   render() {
     const { authenticatedUser } = this.state;

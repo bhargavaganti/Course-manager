@@ -20,11 +20,11 @@ class CourseDetail extends Component {
     },
     errors: [],
   };
-
+  //Retrieve the course details when the course is clicked upon
   componentDidMount() {
     const id = this.props.match.params.id;
     const { context } = this.props;
-    const userId = context.authenticatedUser.id;
+    //const userId = context.authenticatedUser.id;
     context.data
       .getCourseDetails(id)
       .then((data) => {
@@ -35,7 +35,7 @@ class CourseDetail extends Component {
             description: data.description,
             estimatedTime: data.estimatedTime,
             materialsNeeded: data.materialsNeeded,
-            userId: userId,
+            //userId: data.,
             owner: data.owner,
             firstName: data.owner.firstName,
             lastName: data.owner.lastName,
@@ -50,6 +50,7 @@ class CourseDetail extends Component {
       });
   }
 
+  //Delete a course using the context method "deleteCourse" from data.js
   deleteCourse = () => {
     const id = this.props.match.params.id;
     const { context } = this.props;
@@ -72,10 +73,10 @@ class CourseDetail extends Component {
   };
 
   render() {
-    const { context } = this.props;
-    const userId = context.authenticatedUser.id;
-    const authUser = context.authenticatedUser;
-    const authUserId = context.authenticatedUser.id;
+    //const { context } = this.props;
+    //const userId = context.authenticatedUser.id;
+    //const authUser = context.authenticatedUser;
+    // const authUserId = context.authenticatedUser.id;
     const id = this.props.match.params.id;
     const {
       title,
@@ -91,29 +92,23 @@ class CourseDetail extends Component {
         <div className="actions-bar">
           <div className="bounds">
             <div className="grid-100">
-              {authUser && authUserId === userId ? (
-                <React.Fragment>
-                  <span>
-                    <Link className="button" to={`/courses/${id}/update`}>
-                      Update Course
-                    </Link>
+              <React.Fragment>
+                <span>
+                  <Link className="button" to={`/courses/${id}/update`}>
+                    Update Course
+                  </Link>
 
-                    <button
-                      className="button"
-                      to="/"
-                      onClick={this.deleteCourse}
-                    >
-                      Delete Course
-                    </button>
-                  </span>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <a className="button button-secondary" href="/">
-                    Return to List
-                  </a>
-                </React.Fragment>
-              )}
+                  <button className="button" to="/" onClick={this.deleteCourse}>
+                    Delete Course
+                  </button>
+                </span>
+              </React.Fragment>
+
+              <React.Fragment>
+                <a className="button button-secondary" href="/">
+                  Return to List
+                </a>
+              </React.Fragment>
             </div>
             <div className="bounds course--detail">
               <div className="grid-66">

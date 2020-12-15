@@ -11,11 +11,12 @@ class Header extends React.PureComponent {
           <div className="bounds">
             <h1 className="header--logo">Courses</h1>
             <nav>
+              {/**Checks if the user is authenticated/signed in */}
               {authUser ? (
                 <React.Fragment>
                   <span>
                     Welcome {""}
-                    {authUser.firstName}
+                    {authUser.firstName} {authUser.lastName}
                   </span>
                   <Link to="/signout">Sign out</Link>
                 </React.Fragment>
