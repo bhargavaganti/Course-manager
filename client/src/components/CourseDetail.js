@@ -5,42 +5,24 @@ import { Link } from "react-router-dom";
 
 class CourseDetail extends Component {
   state = {
-    courseDetail: {
-      id: "",
-      title: "",
-      description: "",
-      estimatedTime: "",
-      materialsNeeded: "",
-      userId: "",
-      owner: {
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-      },
-    },
-    errors: [],
+    course: [],
+    owner: [],
   };
   //Retrieve the course details when the course is clicked upon
   componentDidMount() {
     const id = this.props.match.params.id;
     const { context } = this.props;
-    //const userId = context.authenticatedUser.id;
     context.data
       .getCourseDetails(id)
       .then((data) => {
+        const course = data;
+        const owner = data.owner;
+
         if (data) {
           this.setState({
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            estimatedTime: data.estimatedTime,
-            materialsNeeded: data.materialsNeeded,
-            //userId: data.,
-            owner: data.owner,
-            firstName: data.owner.firstName,
-            lastName: data.owner.lastName,
-            emailAddress: data.owner.emailAddress,
+            course,
           });
+          this.setState({ owner });
         } else {
           this.props.history.push("/notFound");
         }
@@ -73,54 +55,57 @@ class CourseDetail extends Component {
   };
 
   render() {
-    //const { context } = this.props;
-    //const userId = context.authenticatedUser.id;
-    //const authUser = context.authenticatedUser;
-    // const authUserId = context.authenticatedUser.id;
+    //get the Authenticated user data from context
+    const { context } = this.props;
+    const authUser = context.authenticatedUser;
+
+    //get the current ID value
     const id = this.props.match.params.id;
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      firstName,
-      lastName,
-    } = this.state;
 
     return (
       <div>
         <div className="actions-bar">
           <div className="bounds">
             <div className="grid-100">
-              <React.Fragment>
-                <span>
-                  <Link className="button" to={`/courses/${id}/update`}>
-                    Update Course
+              {/**Renders the update and delete buttons if the authenticated user is the owner of the course */}
+              {authUser && authUser.id === this.state.owner.id ? (
+                <React.Fragment>
+                  <span>
+                    <Link className="button" to={`/courses/${id}/update`}>
+                      Update Course
+                    </Link>
+
+                    <button
+                      className="button"
+                      to="/"
+                      onClick={this.deleteCourse}
+                    >
+                      Delete Course
+                    </button>
+                  </span>
+                  <Link className="button button-secondary" to="/">
+                    Return to List
                   </Link>
-
-                  <button className="button" to="/" onClick={this.deleteCourse}>
-                    Delete Course
-                  </button>
-                </span>
-              </React.Fragment>
-
-              <React.Fragment>
-                <a className="button button-secondary" href="/">
-                  Return to List
-                </a>
-              </React.Fragment>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Link className="button button-secondary" to="/">
+                    Return to List
+                  </Link>
+                </React.Fragment>
+              )}
             </div>
             <div className="bounds course--detail">
               <div className="grid-66">
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
-                  <h3 className="course--title">{title}</h3>
+                  <h3 className="course--title">{this.state.course.title}</h3>
                   <p>
-                    By {firstName} {lastName}
+                    {`By ${this.state.owner.firstName} ${this.state.owner.lastName}`}
                   </p>
                 </div>
                 <div className="course--description">
-                  <ReactMarkDown source={description} />
+                  <ReactMarkDown source={this.state.course.description} />
                 </div>
               </div>
               <div className="grid-25 grid-right">
@@ -128,12 +113,14 @@ class CourseDetail extends Component {
                   <ul className="course--stats--list">
                     <li className="course--stats--list--item">
                       <h4>Estimated Time</h4>
-                      <h3>{estimatedTime}</h3>
+                      <h3>{this.state.course.estimatedTime}</h3>
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
 
-                      <ReactMarkDown source={materialsNeeded} />
+                      <ReactMarkDown
+                        source={this.state.course.materialsNeeded}
+                      />
                     </li>
                   </ul>
                 </div>

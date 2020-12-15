@@ -32,7 +32,7 @@ class UserSignIn extends Component {
           });
         } else {
           this.props.history.push(from);
-          console.log(`SUCCESS! ${emailAddress} ${password} is now signed in`);
+          //console.log(`SUCCESS! ${emailAddress} ${password} is now signed in`);
         }
       })
       .catch((err) => {

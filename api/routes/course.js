@@ -38,7 +38,7 @@ router.get(
           {
             model: User,
             as: "owner",
-            attributes: ["firstName", "lastName", "emailAddress"],
+            attributes: ["firstName", "lastName", "emailAddress", "id"],
           },
         ],
       });
