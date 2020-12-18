@@ -41,17 +41,7 @@ class CourseDetail extends Component {
 
     context.data
       .deleteCourse(id, emailAddress, password)
-      .then((errors) => {
-        if (errors.length > 0) {
-          this.setState({ errors });
-        } else {
-          this.props.history.push("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.props.history.push("/error");
-      });
+      .then((res) => (window.location.href = "/"));
   };
 
   render() {

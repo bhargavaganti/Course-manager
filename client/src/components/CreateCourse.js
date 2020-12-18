@@ -19,7 +19,9 @@ export default class CreateCourse extends Component {
       lastName: context.authenticatedUser.lastName,
     });
   }
-  //submit function
+  /**
+   * Submit method which  saved the course data in the database
+   */
   submit = () => {
     const { context } = this.props;
     const emailAddress = context.authenticatedUser.emailAddress;
@@ -34,7 +36,10 @@ export default class CreateCourse extends Component {
       materialsNeeded,
       userId,
     };
-    //Post/create a course using using the context method createCourse in data.js
+
+    /**
+     * Post/Create a course using using the context method "createCourse" in data.js
+     */
     context.data
       .createCourse(course, emailAddress, password)
       .then((errors) => {
@@ -50,6 +55,9 @@ export default class CreateCourse extends Component {
       });
   };
 
+  /**
+   * The Cancel method rediirect the using to the home page when the cancel button is clicked
+   */
   cancel = () => {
     this.props.history.push("/");
   };
